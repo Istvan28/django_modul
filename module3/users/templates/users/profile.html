@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load carts_tags %}
 
 {% block content %}
     <div class="row">
@@ -73,6 +74,8 @@
                     </div>
                 </div>
                 <!-- Корзина -->
+                 {% user_carts request as carts %}
+
                 <div class="col-md-7">
                     <div class=" bg-white p-4 mb-4 mx-2 rounded custom-shadow">
                         <h3 class="text-center mb-4">Корзина</h3>
@@ -111,18 +114,20 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    {% for item in order.orderitem_set.all %}
                                                     <tr>
-                                                        <td><a class="text-white" href="#">Комплект стол и три стула</a></td>
-                                                        <td>1</td>
-                                                        <td>255.00 $</td>
-                                                        <td>255.00 $</td>
+                                                        <td><a class="text-white" href="{% url "goods:product" item.product.slug %}">{{ item.product.name }}</a></td>
+                                                        <td>{{ item.quantity }}</td>
+                                                        <td>{{ item.price }}</td>
+                                                        <td>{{ item.products_price }}</td>
                                                         
                                                     </tr>
+                                                    {% endfor %}
                                                 </tbody>
                                             </table>
                                             <div class="d-flex justify-content-between">
                                                 <p><strong>Итого:</strong></p>
-                                                <><strong>255.00 $</strong><
+                                                <strong>255.00 $</strong>
                                             </div>
                                         </div>
                                     </div>
